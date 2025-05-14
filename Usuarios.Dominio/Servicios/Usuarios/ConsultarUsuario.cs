@@ -9,7 +9,7 @@ namespace Usuarios.Dominio.Servicios.Usuarios
         private readonly IUsuarioRepositorio _usuarioRepositorio = usuarioRepositorio;
         public async Task<Usuario> Ejecutar(string username)
         {
-            return = await _usuarioRepositorio.ObtenerPorUsername(username);
+            return await _usuarioRepositorio.ObtenerPorUsername(username);
             
         }
     }

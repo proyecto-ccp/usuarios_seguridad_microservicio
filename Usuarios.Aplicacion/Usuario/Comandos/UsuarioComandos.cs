@@ -30,6 +30,6 @@ namespace Usuarios.Aplicacion.Usuario.Comandos
         [Required(ErrorMessage = "El campo Contrasena es obligatorio")]
         string Contrasena,
         AplicacionEnumerador Aplicacion
-        ) : IRequest<LoginOut>
+        ) : IRequest<LoginOut>;
 
 }
