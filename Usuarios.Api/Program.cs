@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using Usuarios.Api.Middleware;
 using Usuarios.Dominio.Puertos.Repositorios;
 using Usuarios.Dominio.Servicios.Usuarios;
 using Usuarios.Infraestructura.Adaptadores.RepositorioGenerico;
@@ -77,6 +78,7 @@ app.UseSwaggerUI();
 app.UseCors("AllowAllOrigins");
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.UseMiddleware<JwtMiddleware>();
 app.MapControllers();
 
 await app.RunAsync();
