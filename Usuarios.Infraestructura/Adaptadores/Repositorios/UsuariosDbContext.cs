@@ -2,6 +2,7 @@
 using Usuarios.Dominio.Entidades;
 using System.Diagnostics.CodeAnalysis;
 using Usuarios.Infraestructura.Adaptadores.Configuraciones;
+using Usuarios.Dominio.ObjetoValor;
 
 namespace Usuarios.Infraestructura.Adaptadores.Repositorios
 {
@@ -11,11 +12,13 @@ namespace Usuarios.Infraestructura.Adaptadores.Repositorios
         public UsuariosDbContext(DbContextOptions<UsuariosDbContext> options): base(options){ }
 
         public DbSet<Usuario> Usuarios { get; set;}
-       
+        public DbSet<Rol> Roles { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UsuarioConfiguracion());
+            modelBuilder.ApplyConfiguration(new RolConfiguracion());
         }
     }
 }
