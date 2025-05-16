@@ -53,7 +53,8 @@ namespace Usuarios.Aplicacion.Usuario.Comandos
                     {
                         var rol = await _consultarRol.Ejecutar(usuario.IdRol);
                         output.Menu = rol.Menu;
-                        output.Token = GenerarTokenJwt(usuario.Username);
+                        output.Idusuario = usuario.Id;
+                        output.Token = GenerarTokenJwt(usuario.Id);
                         output.Mensaje = "Operación exitosa";
                         output.Resultado = Resultado.Exitoso;
                         output.Status = HttpStatusCode.OK;
@@ -77,12 +78,12 @@ namespace Usuarios.Aplicacion.Usuario.Comandos
             return output;
         }
 
-        private string GenerarTokenJwt(string username)
+        private string GenerarTokenJwt(Guid idUsuario)
         {
             DateTime dtNow = DateTime.UtcNow;
             SymmetricSecurityKey securityKey = new (System.Text.Encoding.Default.GetBytes(_llave.PadRight((512 / 8), '\0')));
             SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
-            ClaimsIdentity claimsIdentity = new ClaimsIdentity([new Claim(ClaimTypes.Name, username)]);
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity([new Claim(ClaimTypes.Name, idUsuario.ToString())]);
             var tokenHandler = new JwtSecurityTokenHandler();
             JwtSecurityToken jwtSecurityToken = tokenHandler.CreateJwtSecurityToken(audience: _receptor, issuer: _emisor, subject: claimsIdentity, notBefore: dtNow, expires: dtNow.AddMinutes(_tiempo), signingCredentials: signingCredentials);
 
