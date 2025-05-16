@@ -27,6 +27,7 @@ namespace Usuarios.Aplicacion.Usuario.Dto
     { 
         public string Token { get; set; }
         public string Menu { get; set; }
+        public Guid Idusuario { get; set; }
 
     }
 }
