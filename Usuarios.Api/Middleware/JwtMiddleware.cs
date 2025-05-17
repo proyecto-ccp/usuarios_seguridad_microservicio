@@ -28,16 +28,15 @@ namespace Usuarios.Api.Middleware
         /// </summary>
         public async Task InvokeAsync(HttpContext httpContext)
         {
-            var token = httpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            var token = httpContext.Request.Headers.Authorization.ToString().Replace("Bearer ", "");
 
             if (token != null)
             {
                 var tokenInfo = ValidarToken(token);
-                if (!string.IsNullOrEmpty(tokenInfo.Username)) 
+                if (!string.IsNullOrEmpty(tokenInfo.IdUsuario)) 
                 {
-                    httpContext.Items["UserId"] = tokenInfo.Username;
+                    httpContext.Items["UserId"] = tokenInfo.IdUsuario;
                 }
-                
             }
 
             await _next(httpContext);
@@ -62,7 +61,7 @@ namespace Usuarios.Api.Middleware
                 }, out SecurityToken securityToken);
 
                 var jwtToken = (JwtSecurityToken)securityToken;
-                output.Username = jwtToken.Claims.First(t => t.Type == "unique_name").Value;
+                output.IdUsuario = jwtToken.Claims.First(t => t.Type == "unique_name").Value;
                 
                 return output;
             }

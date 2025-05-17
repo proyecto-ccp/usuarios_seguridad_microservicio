@@ -19,7 +19,8 @@ namespace Usuarios.Aplicacion.Usuario.Comandos
         private readonly string _llave;
         private readonly string _receptor;
         private readonly string _emisor;
-        private readonly int _tiempo;
+        private readonly int _tiempoWeb;
+        private readonly int _tiempoMovil;
 
         public UsuarioLoginManejador(IConfiguration configuracion, ConsultarUsuario consultarUsuario, ConsultarRolUsuario consultarRol) 
         {
@@ -28,7 +29,8 @@ namespace Usuarios.Aplicacion.Usuario.Comandos
             _llave = configuracion["TokenJwt:Llave"];
             _receptor = configuracion["TokenJwt:Receptor"];
             _emisor = configuracion["TokenJwt:Emisor"];
-            _tiempo = int.Parse(configuracion["TokenJwt:Tiempo"]);
+            _tiempoWeb = int.Parse(configuracion["TokenJwt:TiempoWeb"]);
+            _tiempoMovil = int.Parse(configuracion["TokenJwt:TiempoMovil"]);
 
         }
         public async Task<LoginOut> Handle(UsuarioLoginComando request, CancellationToken cancellationToken)
@@ -54,7 +56,17 @@ namespace Usuarios.Aplicacion.Usuario.Comandos
                         var rol = await _consultarRol.Ejecutar(usuario.IdRol);
                         output.Menu = rol.Menu;
                         output.Idusuario = usuario.Id;
-                        output.Token = GenerarTokenJwt(usuario.Id);
+
+                        int tiempo = 0;
+                        if (request.Aplicacion == AplicacionEnumerador.MOVIL)
+                        {
+                            tiempo = _tiempoMovil;
+                        }
+                        else 
+                        {
+                            tiempo = _tiempoWeb;
+                        }
+                        output.Token = GenerarTokenJwt(usuario.Id, tiempo);
                         output.Mensaje = "Operación exitosa";
                         output.Resultado = Resultado.Exitoso;
                         output.Status = HttpStatusCode.OK;
@@ -78,14 +90,14 @@ namespace Usuarios.Aplicacion.Usuario.Comandos
             return output;
         }
 
-        private string GenerarTokenJwt(Guid idUsuario)
+        private string GenerarTokenJwt(Guid idUsuario, int tiempo)
         {
             DateTime dtNow = DateTime.UtcNow;
             SymmetricSecurityKey securityKey = new (System.Text.Encoding.Default.GetBytes(_llave.PadRight((512 / 8), '\0')));
             SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
             ClaimsIdentity claimsIdentity = new ClaimsIdentity([new Claim(ClaimTypes.Name, idUsuario.ToString())]);
             var tokenHandler = new JwtSecurityTokenHandler();
-            JwtSecurityToken jwtSecurityToken = tokenHandler.CreateJwtSecurityToken(audience: _receptor, issuer: _emisor, subject: claimsIdentity, notBefore: dtNow, expires: dtNow.AddMinutes(_tiempo), signingCredentials: signingCredentials);
+            JwtSecurityToken jwtSecurityToken = tokenHandler.CreateJwtSecurityToken(audience: _receptor, issuer: _emisor, subject: claimsIdentity, notBefore: dtNow, expires: dtNow.AddMinutes(tiempo), signingCredentials: signingCredentials);
 
             string token = tokenHandler.WriteToken(jwtSecurityToken);
 
