@@ -105,7 +105,7 @@ namespace Usuarios.Api.Controllers
         {
             var output = new TokenInfo
             {
-                Username = HttpContext.Items["UserId"].ToString(),
+                IdUsuario = HttpContext.Items["UserId"].ToString(),
                 Mensaje = "Operación exitosa",
                 Resultado = Resultado.Exitoso,
                 Status = System.Net.HttpStatusCode.OK
