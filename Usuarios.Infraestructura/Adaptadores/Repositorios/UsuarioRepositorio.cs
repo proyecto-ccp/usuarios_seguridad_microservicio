@@ -30,9 +30,9 @@ namespace Usuarios.Infraestructura.Adaptadores.Repositorios
             throw new NotImplementedException();
         }
 
-        public Task<Usuario> ObtenerPorId(Guid id)
+        public async Task<Usuario> ObtenerPorId(Guid id)
         {
-            throw new NotImplementedException();
+            return await _repositorioUsuario.BuscarPorLlave(id);
         }
 
         public async Task<Usuario> ObtenerPorUsername(string username)

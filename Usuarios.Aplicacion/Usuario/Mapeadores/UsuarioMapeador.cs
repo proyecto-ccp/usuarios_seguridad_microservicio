@@ -11,10 +11,12 @@ namespace Usuarios.Aplicacion.Usuario.Mapeadores
         {
 
             CreateMap<Dominio.Entidades.Usuario, UsuarioDto>().ReverseMap();
-            CreateMap<UsuarioDto, UsuarioOut>()
+            CreateMap<UsuarioDto, UsuarioCreadoOut>()
                 .ForMember(dest => dest.IdUsuario, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.IdRol, opt => opt.MapFrom(src => src.IdRol));
             CreateMap<UsuarioCrearComando, Dominio.Entidades.Usuario>().ReverseMap(); 
+            
+            CreateMap<Dominio.Entidades.Usuario, UsuarioOut>().ReverseMap();
         }
     }
 }
