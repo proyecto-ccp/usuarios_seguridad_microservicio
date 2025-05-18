@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Usuarios.Api.Helpers;
 using Usuarios.Aplicacion.Comun;
 using Usuarios.Aplicacion.Usuario.Comandos;
+using Usuarios.Aplicacion.Usuario.Consultas;
 using Usuarios.Aplicacion.Usuario.Dto;
 
 namespace Usuarios.Api.Controllers
@@ -38,7 +39,7 @@ namespace Usuarios.Api.Controllers
         /// </response>
         [HttpPost]
         [Route("Crear")]
-        [ProducesResponseType(typeof(UsuarioOut), 201)]
+        [ProducesResponseType(typeof(UsuarioCreadoOut), 201)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), 401)]
         [ProducesResponseType(typeof(ProblemDetails), 500)]
@@ -113,6 +114,40 @@ namespace Usuarios.Api.Controllers
             
             return Ok(output);
             
+        }
+
+        /// <summary>
+        /// Obtiene la información de un usuario por su ID
+        /// </summary>
+        /// <response code="200"> 
+        /// UsuarioOut: objeto de salida <br/>
+        /// Resultado: Enumerador de la operación, Exitoso = 1, Error = 2, SinRegistros = 3 <br/>
+        /// Mensaje: Mensaje de la operación <br/>
+        /// Status: Código de estado HTTP <br/>
+        /// </response>
+        [HttpGet]
+        [Route("{idusuario}")]
+        [ProducesResponseType(typeof(UsuarioOut), 200)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseOut), 404)]
+        [ProducesResponseType(typeof(ProblemDetails), 401)]
+        [ProducesResponseType(typeof(ProblemDetails), 500)]
+        public async Task<IActionResult> ConsultarPorId([FromRoute] Guid idusuario)
+        {
+            var output = await _mediator.Send(new UsuarioPorIdConsulta(idusuario));
+
+            if (output.Resultado == Resultado.SinRegistros)
+            {
+                return NotFound(new { output.Resultado, output.Mensaje, output.Status });
+            }
+            else if (output.Resultado == Resultado.Exitoso)
+            {
+                return Ok(output);
+            }
+            else
+            {
+                return Problem(output.Mensaje, statusCode: (int)output.Status);
+            }
         }
 
     }

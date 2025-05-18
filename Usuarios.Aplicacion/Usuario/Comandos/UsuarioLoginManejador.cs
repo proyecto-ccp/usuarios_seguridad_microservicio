@@ -39,7 +39,7 @@ namespace Usuarios.Aplicacion.Usuario.Comandos
 
             try
             {
-                var usuario = await _consultarUsuario.Ejecutar(request.Username);
+                var usuario = await _consultarUsuario.EjecutarPorUsername(request.Username);
 
                 if (usuario == null)
                 {
