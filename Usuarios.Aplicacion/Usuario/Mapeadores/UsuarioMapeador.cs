@@ -2,6 +2,7 @@
 using AutoMapper;
 using Usuarios.Aplicacion.Usuario.Comandos;
 using Usuarios.Aplicacion.Usuario.Dto;
+using Usuarios.Dominio.Entidades;
 
 namespace Usuarios.Aplicacion.Usuario.Mapeadores
 {
@@ -17,6 +18,8 @@ namespace Usuarios.Aplicacion.Usuario.Mapeadores
             CreateMap<UsuarioCrearComando, Dominio.Entidades.Usuario>().ReverseMap(); 
             
             CreateMap<Dominio.Entidades.Usuario, UsuarioOut>().ReverseMap();
+
+            CreateMap<Perfil, UsuarioOut>().ReverseMap();
         }
     }
 }

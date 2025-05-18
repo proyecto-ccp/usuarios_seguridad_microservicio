@@ -11,6 +11,7 @@ namespace Usuarios.Dominio.Puertos.Repositorios
         Task<Usuario> Crear(Usuario usuario);
         Task<Usuario> Actualizar(Usuario usuario);
         Task<Usuario> Eliminar(Guid id);
-        
+        Task<Perfil> ObtenerUsuarioPorPerfil(Guid idUsuario);
+
     }
 }
