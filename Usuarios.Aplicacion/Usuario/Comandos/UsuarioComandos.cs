@@ -22,7 +22,7 @@ namespace Usuarios.Aplicacion.Usuario.Comandos
         string Telefono,
         [Required(ErrorMessage = "El campo IdRol es obligatorio")]
         Guid? IdRol
-        ) : IRequest<UsuarioOut>;
+        ) : IRequest<UsuarioCreadoOut>;
 
     public record UsuarioLoginComando(
         [Required(ErrorMessage = "El campo Username es obligatorio")]

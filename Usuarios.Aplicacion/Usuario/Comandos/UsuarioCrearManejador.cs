@@ -9,7 +9,7 @@ using Usuarios.Dominio.Servicios.Usuarios;
 
 namespace Usuarios.Aplicacion.Usuario.Comandos
 {
-    public class UsuarioCrearManejador : IRequestHandler<UsuarioCrearComando, UsuarioOut>
+    public class UsuarioCrearManejador : IRequestHandler<UsuarioCrearComando, UsuarioCreadoOut>
     {
         private readonly IMapper _mapper;
         private readonly CrearUsuario _crearUsuario;
@@ -19,9 +19,9 @@ namespace Usuarios.Aplicacion.Usuario.Comandos
             _mapper = mapper;
             _crearUsuario = crearUsuario;
         }
-        public async Task<UsuarioOut> Handle(UsuarioCrearComando request, CancellationToken cancellationToken)
+        public async Task<UsuarioCreadoOut> Handle(UsuarioCrearComando request, CancellationToken cancellationToken)
         {
-            UsuarioOut output = new ();
+            UsuarioCreadoOut output = new ();
 
             try 
             { 

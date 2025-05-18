@@ -7,10 +7,14 @@ namespace Usuarios.Dominio.Servicios.Usuarios
     public class ConsultarUsuario(IUsuarioRepositorio usuarioRepositorio)
     {
         private readonly IUsuarioRepositorio _usuarioRepositorio = usuarioRepositorio;
-        public async Task<Usuario> Ejecutar(string username)
+        public async Task<Usuario> EjecutarPorUsername(string username)
         {
             return await _usuarioRepositorio.ObtenerPorUsername(username);
-            
+        }
+
+        public async Task<Usuario> EjecutarPorId(Guid id)
+        {
+            return await _usuarioRepositorio.ObtenerPorId(id);
         }
     }
 }
