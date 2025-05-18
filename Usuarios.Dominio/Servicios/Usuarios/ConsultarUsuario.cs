@@ -16,5 +16,10 @@ namespace Usuarios.Dominio.Servicios.Usuarios
         {
             return await _usuarioRepositorio.ObtenerPorId(id);
         }
+
+        public async Task<Perfil> EjecutarUsuarioPorPerfil(Guid idUsuario)
+        {
+            return await _usuarioRepositorio.ObtenerUsuarioPorPerfil(idUsuario);
+        }
     }
 }

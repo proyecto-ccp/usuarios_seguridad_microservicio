@@ -13,12 +13,13 @@ namespace Usuarios.Infraestructura.Adaptadores.Repositorios
 
         public DbSet<Usuario> Usuarios { get; set;}
         public DbSet<Rol> Roles { get; set; }
-
+        public DbSet<Perfil> Perfiles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UsuarioConfiguracion());
             modelBuilder.ApplyConfiguration(new RolConfiguracion());
+            modelBuilder.ApplyConfiguration(new PerfilConfiguracion());
         }
     }
 }

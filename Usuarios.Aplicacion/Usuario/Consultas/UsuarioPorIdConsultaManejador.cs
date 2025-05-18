@@ -4,7 +4,6 @@ using MediatR;
 using System.Net;
 using Usuarios.Aplicacion.Comun;
 using Usuarios.Aplicacion.Usuario.Dto;
-using Usuarios.Aplicacion.Usuario.Herramientas;
 using Usuarios.Dominio.Servicios.Usuarios;
 
 namespace Usuarios.Aplicacion.Usuario.Consultas
@@ -25,7 +24,7 @@ namespace Usuarios.Aplicacion.Usuario.Consultas
 
             try
             {
-                var usuario = await _consultarUsuario.EjecutarPorId(request.Id);
+                var usuario = await _consultarUsuario.EjecutarUsuarioPorPerfil(request.Id);
 
                 if (usuario is null)
                 {
