@@ -9,10 +9,12 @@ namespace Usuarios.Infraestructura.Adaptadores.Repositorios
     public class UsuarioRepositorio : IUsuarioRepositorio
     {
         private readonly IRepositorioBase<Usuario> _repositorioUsuario;
+        private readonly IRepositorioBase<Perfil> _repositorioPerfil;
 
-        public UsuarioRepositorio(IRepositorioBase<Usuario> repositorioUsuario)
+        public UsuarioRepositorio(IRepositorioBase<Usuario> repositorioUsuario, IRepositorioBase<Perfil> repositorioPerfil)
         {
             _repositorioUsuario = repositorioUsuario;
+            _repositorioPerfil = repositorioPerfil;
         }
 
         public Task<Usuario> Actualizar(Usuario usuario)
@@ -40,9 +42,14 @@ namespace Usuarios.Infraestructura.Adaptadores.Repositorios
             return await _repositorioUsuario.BuscarPorCampos(x => x.Username == username);
         }
 
-        public Task<List<Usuario>> ObtenerTodos()
+        public async Task<List<Usuario>> ObtenerTodos()
         {
-            throw new NotImplementedException();
+            return await _repositorioUsuario.DarListado();
+        }
+
+        public async Task<Perfil> ObtenerUsuarioPorPerfil(Guid idUsuario)
+        {
+            return await _repositorioPerfil.BuscarPorCampos(x => x.Id == idUsuario);
         }
     }
 }

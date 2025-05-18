@@ -32,6 +32,8 @@ namespace Usuarios.Aplicacion.Usuario.Dto
         public string Correo { get; set; }
         public string Telefono { get; set; }
         public Guid IdRol { get; set; }
+        public string Rol { get; set; }
+        public Guid IdPerfil { get; set; }
         public DateTime FechaRegistro { get; set; }
         public DateTime? FechaActualizacion { get; set; }
 
